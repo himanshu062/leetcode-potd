@@ -1,0 +1,30 @@
+class Solution {
+public:
+bool ans(long long mid, long long left , long long right, int maxSum){
+    long long leftsum=0, rightsum=0;
+        if(left<mid)
+        leftsum=left*mid - (left*(left-1)/2);
+        else
+        leftsum=(mid*(mid+1)/2) + (left-mid);
+        if(right<mid)
+        rightsum=right*mid-(right*(right+1)/2);
+        else
+        rightsum=(mid*(mid-1)/2) +(right-mid+1);
+        return (leftsum+rightsum)<=maxSum;
+}
+    int maxValue(int n, int index, int maxSum) {
+      long long low=1, high = maxSum , mid =0, res=0;
+      long long left =  index+1;
+      long long right = n-index-1;
+      while(low<=high){
+          mid=(low+high)>>1;
+          if(ans(mid,left,right,maxSum)){
+            res=mid;
+            low= mid+1;
+          }
+          else
+          high=mid-1;
+      }
+      return res;
+    }
+};
