@@ -1,0 +1,38 @@
+class Solution:
+    def makeArrayIncreasing(self, arr1: List[int], arr2: List[int]) -> int:
+        hmap={}
+        for i in arr2:
+            hmap[i]=1;
+        temp=[k for k in hmap]
+        temp.sort()
+        ans = self.dfs(arr1,temp,-1,0,{})
+        if ans>= 100000:
+            return -1
+        return ans
+    def dfs(self, arr1,arr2,pe,cidx,dp):
+        if cidx >= len(arr1):
+            return 0
+        if (cidx,pe) in dp:
+            return dp[cidx,pe]
+        j=self.bs(arr2,pe)
+        if j == len (arr2) and arr1[cidx] <= pe:
+            return 100000
+        pick = notpick =100000
+        if(j<len(arr2)):
+            pick = self.dfs(arr1,arr2,arr2[j],cidx+1,dp)+1
+        if arr1[cidx]>pe:
+            notpick = self.dfs(arr1,arr2,arr1[cidx],cidx+1,dp)
+        dp[cidx,pe]= min(pick,notpick)
+        return min(pick,notpick)
+    def bs(self,arr,x):
+        l=0
+        u=len(arr)-1
+        ans = u+1
+        while l<=u:
+            m= (l+u)>>1
+            if arr[m] >x:
+                ans = m
+                u= m-1
+            else:
+                l=m+1
+        return ans
