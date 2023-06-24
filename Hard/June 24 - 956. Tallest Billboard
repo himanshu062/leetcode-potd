@@ -1,0 +1,18 @@
+class Solution {
+public:
+int solve(int idx, int diff, int n, vector<int> &rods, map<pair<int ,int>,int> &dp)
+{
+    if(dp.find({idx,diff})!= dp.end())
+    return dp[{idx,diff}];
+    if(idx == n)
+    return diff==0 ? 0:INT_MIN;
+    dp[{idx,diff}]= max(solve(idx+1,diff+rods[idx],n,rods, dp) + rods[idx],max(solve(idx+1,diff-rods[idx],n,rods, dp) + rods[idx],solve(idx+1,diff,n,rods,dp)));
+    return dp[{idx,diff}];
+}
+
+    int tallestBillboard(vector<int>& rods) {
+        int n= rods.size();
+        map<pair<int,int>,int> dp;
+        return solve(0,0,n,rods,dp)/2;
+    }
+};
