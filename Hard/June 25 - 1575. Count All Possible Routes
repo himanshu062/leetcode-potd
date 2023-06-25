@@ -1,0 +1,28 @@
+class Solution {
+public:
+
+int solve(int i,int fuel, int finish, vector<int>& locations , vector<vector<long long>>& dp)
+{
+    long long int count =0;
+    if(fuel<0)
+    return 0;
+    if( i== finish && fuel >= 0)
+    count++;
+    if(dp[i][fuel] != -1)
+    return dp[i][fuel];
+    dp[i][fuel]=0;
+    for(int j=0;j<locations.size();j++)
+    {
+        if (i != j)
+        count+= solve(j,fuel - abs(locations[i]-locations [j]),finish,locations ,dp);
+    }
+    return dp[i][fuel] = count % 1000000007;
+}
+
+
+    int countRoutes(vector<int>& locations, int start, int finish, int fuel) {
+        int n= locations.size();
+        vector<vector<long long>> dp(n,vector<long long>(fuel+1,-1));
+        return solve(start,fuel,finish,locations ,dp);
+    }
+};
