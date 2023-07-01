@@ -1,0 +1,29 @@
+class Solution {
+public:
+// int res = INT_MAX;
+void solve(int i,vector<int>& cookies,int k,vector<int>& disr,int& res)
+{
+    int maxnum = *max_element(disr.begin(),disr.end());
+    if(i == cookies.size())
+    {
+        res = min(res,maxnum);
+        return;
+    }
+    if(res<=maxnum)
+    return;
+    for(int j=0;j<k;j++)
+    {
+        disr[j]+=cookies[i];
+        solve(i+1,cookies,k,disr,res);
+        disr[j]-= cookies[i];
+    }
+}
+    int distributeCookies(vector<int>& cookies, int k) {
+        if (k== cookies.size())
+        return *max_element(cookies.begin(),cookies.end());
+        vector<int> disr(k,0);
+        int res = INT_MAX;
+        solve(0,cookies,k,disr,res);
+        return res;
+    }
+};
