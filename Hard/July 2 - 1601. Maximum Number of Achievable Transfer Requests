@@ -1,0 +1,28 @@
+class Solution {
+public:
+int solve(vector<vector<int>>& requests,int totBuild,int i,int tapproved){
+    if(i== requests.size()){
+        vector<int>v (totBuild,0);
+        int ans =0;
+        for(int j=0;j<requests.size();j++){
+            if((tapproved & (1<<j))!=0){
+                v[requests[j][0]]--;
+                v[requests[j][1]]++;
+                ans++;
+            }
+        }
+        for(int j=0;j<v.size();j++){
+            if(v[j] != 0) return 0;
+        }
+        return ans;
+    }
+    int appr =0, notapprv =0,previous = tapproved;
+    tapproved |= (1<<i);
+    appr = solve(requests,totBuild,i+1,tapproved);
+    tapproved = previous;
+    notapprv = solve(requests,totBuild,i+1,tapproved); return max(appr,notapprv);
+}
+    int maximumRequests(int n, vector<vector<int>>& requests) {
+        return solve(requests,n,0,0);
+    }
+};
