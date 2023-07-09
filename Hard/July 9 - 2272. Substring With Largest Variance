@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int largestVariance(string s) {
+        unordered_set<char> set(begin(s),end(s));
+        int res=0;
+        for(char a: set){
+            for(char b: set){
+                if(a==b)  continue;
+                int count1=0, count2=0;
+                bool startb= false;
+                for(char ch :s){
+                    if(ch==a) count1++;
+                    if(ch==b) count2++;
+                    if(count2>0) res = max(res,count1-count2);
+                    if(count2>count1){
+                        count1=0;
+                        count2=0;
+                        startb= true;
+                    }
+                    if(count2 == 0 && startb) res = max(res,count1-1);
+                }
+            }
+        }
+        return res;
+    }
+};
