@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+    vector<string> ans;
+    unordered_map<string, multiset<string>> graph;
+    for (const vector<string>& ticket : tickets) graph[ticket[0]].insert(ticket[1]);
+    solve(graph, "JFK", ans);
+    reverse(ans.begin(), ans.end());
+    return ans;
+  }
+ private:
+  void solve(unordered_map<string, multiset<string>>& graph, const string& u,vector<string>& ans) {
+    while (graph.count(u) && !graph[u].empty()) {
+      const string v = *graph[u].begin();
+      graph[u].erase(graph[u].begin());
+      solve(graph, v, ans);
+    }
+    ans.push_back(u);
+    }
+};
